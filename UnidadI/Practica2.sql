@@ -36,3 +36,48 @@ CREATE TABLE tblEmpleado(
 	check(salario>=400 and salario<=40000)
 )
 go
+
+--Crear la tabla Venta
+CREATE TABLE tblVenta(
+	IdVenta int not null,  
+	fecha date not null, 
+	IdCliente int not null,
+	IdEmpleado int not null,
+	constraint pk_tblVenta
+	primary key(IdVenta),
+	constraint fk_tblCliente
+	foreign key(IdCliente)
+	references tblCliente(IdCliente),
+	constraint fk_tblEmpleado
+	foreign key(IdEmpleado)
+	references tblEmpleado(IdEmpleado)
+)
+
+--Crear la tabla Producto
+CREATE TABLE tblProducto(
+	IdProducto int not null,
+	descripcion varchar(100) not null,
+	existencia int not null,
+	PrecioUnitario int not null,
+	constraint pk_tblProducto
+	primary key(IdProducto),
+	constraint unico_descripcion
+	unique(descripcion)
+)
+go
+
+--Crear la tabla Detalle_Venta
+CREATE TABLE Detalle_Venta(
+  IdVenta int not null,
+  IdProducto int not null,
+  Precio decimal(10,2) not null,
+  Cantidad int not null, 
+  constraint pk_Detalle_Venta
+  primary key(IdVenta,IdProducto),
+  constraint fk_tblVenta
+  foreign key(IdVenta)
+  references tblVenta(IdVenta),
+  constraint fk_tblProducto
+  foreign key(IdProducto)
+  references tblProducto(IdProducto),
+)
